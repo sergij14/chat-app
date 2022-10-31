@@ -9,7 +9,7 @@ const $chatMessages = document.querySelector("#chat-messages");
 const $chatNotifications = document.querySelector("#chat-notifications");
 const $chatRoomUsers = document.querySelector("#chat-room-users");
 
-// consttants
+// constants
 const DATE_FORMAT = "DD/MM/YYYY - hh:mm:ss";
 const NOTIFICATION = {
   SUCCESS: "success",
