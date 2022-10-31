@@ -4,17 +4,42 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
     <title>Chat app</title>
   </head>
   <body>
     <div id="app">
-      <div class="container">
+      <div class="container is-fuild m-4">
         <div id="chat-messages"></div>
-        <form id="chat-form" autocomplete="off">
-          <input type="text" placeholder="message" name="message" />
-          <button type="submit">submit</button>
+        <form id="chat-form" autocomplete="off" style="max-width:600px">
+          <div class="field">
+            <label class="label">Message:</label>
+            <div class="control">
+              <textarea
+                class="textarea"
+                placeholder="Message..."
+                name="message"
+              ></textarea>
+            </div>
+          </div>
+          <div class="field is-grouped">
+            <div class="control">
+              <button class="button is-link" type="submit">Submit</button>
+            </div>
+            <div class="control">
+              <button
+                class="button is-link is-light"
+                id="send-location-btn"
+                type="submit"
+              >
+                Send location
+              </button>
+            </div>
+          </div>
         </form>
-        <button id="send-location-btn" type="submit">send location</button>
       </div>
     </div>
     <script id="message-template" type="text/html">

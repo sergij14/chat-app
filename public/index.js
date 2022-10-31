@@ -4,7 +4,7 @@ const socket = io();
 const chatForm = document.querySelector("#chat-form");
 const sendLocationBtn = document.querySelector("#send-location-btn");
 const chatFormBtn = document.querySelector("button");
-const chatFormMessage = chatForm.querySelector("input");
+const chatFormMessage = chatForm.querySelector("textarea");
 const chatMessages = document.querySelector("#chat-messages");
 
 // const
