@@ -18,14 +18,14 @@ io.on("connection", (socket) => {
   socket.emit("message", "welcome");
   socket.broadcast.emit("message", "A new user has joined the chat");
 
-  socket.on("send_message", (data, callback) => {
+  socket.on("send_message", (message, callback) => {
     const filter = new Filter();
 
-    if (filter.isProfane(data.message)) {
+    if (filter.isProfane(message)) {
       return callback("Profanity is not allowed");
     }
 
-    io.emit("message", data);
+    io.emit("message", message);
     callback();
   });
 
