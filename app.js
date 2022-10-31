@@ -7,14 +7,20 @@ dotenv.config({ path: "./.env" });
 
 const app = express();
 const server = http.createServer(app);
-const io = socketio(server)
+const io = socketio(server);
 
 const port = process.env.PORT || 3000;
 
 app.use(express.static(path.join(__dirname, "public")));
 
-io.on('connection', () => {
-  console.log('new ws connection');
-})
+let count = 0;
+
+io.on("connection", (socket) => {
+  io.emit("count_update", count);
+  socket.on("increment", () => {
+    count++;
+    io.emit("count_update", count);
+  });
+});
 
 server.listen(port, console.log("server is running on port " + port));
