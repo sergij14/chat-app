@@ -1,5 +1,6 @@
 const socket = io();
 const chatForm = document.querySelector("#chat-form");
+const sendLocationBtn = document.querySelector("#send-location-btn");
 
 chatForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
@@ -15,4 +16,20 @@ chatForm.addEventListener("submit", (evt) => {
 
 socket.on("message", (data) => {
   console.log(data);
+});
+
+sendLocationBtn.addEventListener("click", () => {
+  if (!navigator.geolocation) {
+    return alert("Your browser does not support geolocation");
+  }
+  navigator.geolocation.getCurrentPosition((position) => {
+    const {
+      coords: { latitude, longitude },
+    } = position;
+
+    socket.emit("send_location", {
+      latitude,
+      longitude,
+    });
+  });
 });
