@@ -16,11 +16,17 @@ const port = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, "public")));
 
 io.on("connection", (socket) => {
-  socket.emit("message", generateMessage("Welcome"));
-  socket.broadcast.emit(
-    "message",
-    generateMessage("A new user has joined the chat")
-  );
+  socket.on("join", ({ room, username }) => {
+    socket.join(room);
+
+    socket.emit("message", generateMessage("Welcome"));
+    socket.broadcast
+      .to(room)
+      .emit(
+        "message",
+        generateMessage(`${username} has joined to ${room} room`)
+      );
+  });
 
   socket.on("send_message", (message, callback) => {
     const filter = new Filter();

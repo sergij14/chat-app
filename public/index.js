@@ -16,7 +16,7 @@ const NOTIFICATION = {
   DANGER: "danger",
 };
 
-//templates
+// templates
 const messageTemplate = document.querySelector("#message-template").innerHTML;
 const locationMessageTemplate = document.querySelector(
   "#location-message-template"
@@ -25,7 +25,7 @@ const notificationTemplate = document.querySelector(
   "#notification-template"
 ).innerHTML;
 
-//utils
+// utils
 const renderNotification = (message, type) => {
   const html = Mustache.render(notificationTemplate, {
     message,
@@ -37,6 +37,11 @@ const renderNotification = (message, type) => {
     notifications.innerHTML = "";
   }, 2000);
 };
+
+// query params
+const { username, room } = Qs.parse(location.search, {
+  ignoreQueryPrefix: true,
+});
 
 /////////////////////////////////////////////////////////////////////
 
@@ -55,6 +60,8 @@ socket.on("location_message", ({ text, createdAt }) => {
   });
   chatMessages.insertAdjacentHTML("beforeend", html);
 });
+
+socket.emit("join", { username, room });
 
 chatForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
