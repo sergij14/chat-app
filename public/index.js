@@ -7,17 +7,28 @@ const chatFormBtn = document.querySelector("button");
 const chatFormMessage = chatForm.querySelector("input");
 const chatMessages = document.querySelector("#chat-messages");
 
+// const
+const DATE_FORMAT = "DD/MM/YYYY - hh:mm:ss";
+
 //templates
 const messageTemplate = document.querySelector("#message-template").innerHTML;
-const locationMessageTemplate = document.querySelector("#location-message-template").innerHTML;
+const locationMessageTemplate = document.querySelector(
+  "#location-message-template"
+).innerHTML;
 
-socket.on("message", (message) => {
-  const html = Mustache.render(messageTemplate, {message});
+socket.on("message", ({ text, createdAt }) => {
+  const html = Mustache.render(messageTemplate, {
+    message: text,
+    createdAt: moment(createdAt).format(DATE_FORMAT),
+  });
   chatMessages.insertAdjacentHTML("beforeend", html);
 });
 
-socket.on("location_message", (url) => {
-  const html = Mustache.render(locationMessageTemplate, {url});
+socket.on("location_message", ({ text, createdAt }) => {
+  const html = Mustache.render(locationMessageTemplate, {
+    url: text,
+    createdAt: moment(createdAt).format(DATE_FORMAT),
+  });
   chatMessages.insertAdjacentHTML("beforeend", html);
 });
 

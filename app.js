@@ -4,6 +4,7 @@ const path = require("path");
 const http = require("http");
 const socketio = require("socket.io");
 const Filter = require("bad-words");
+const generateMessage = require("./utils/generateMessage");
 dotenv.config({ path: "./.env" });
 
 const app = express();
@@ -15,8 +16,11 @@ const port = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, "public")));
 
 io.on("connection", (socket) => {
-  socket.emit("message", "welcome");
-  socket.broadcast.emit("message", "A new user has joined the chat");
+  socket.emit("message", generateMessage("Welcome"));
+  socket.broadcast.emit(
+    "message",
+    generateMessage("A new user has joined the chat")
+  );
 
   socket.on("send_message", (message, callback) => {
     const filter = new Filter();
@@ -25,17 +29,20 @@ io.on("connection", (socket) => {
       return callback("Profanity is not allowed");
     }
 
-    io.emit("message", message);
+    io.emit("message", generateMessage(message));
     callback();
   });
 
   socket.on("send_location", ({ longitude, latitude }, callback) => {
-    io.emit("location_message", `http://google.com/maps/?q=${latitude},${longitude}`);
+    io.emit(
+      "location_message",
+      generateMessage(`http://google.com/maps/?q=${latitude},${longitude}`)
+    );
     callback();
   });
 
   socket.on("disconnect", () => {
-    socket.emit("message", "A user has disconnected");
+    socket.emit("message", generateMessage("A user has disconnected"));
   });
 });
 
