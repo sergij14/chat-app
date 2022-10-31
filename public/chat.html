@@ -15,8 +15,8 @@
       <div class="container is-fuild m-4">
         <div
           id="chat-room-users"
-          class="is-flex is-justify-content-center mb-4"
-          style="gap: 10px"
+          class="pb-4"
+          style="border-bottom: 1px dashed #c1c1c1"
         ></div>
         <div id="chat-notifications" class="mb-4"></div>
         <div id="chat-messages"></div>
@@ -73,7 +73,15 @@
     </script>
 
     <script id="room-user-template" type="text/html">
-      <span class="tag is-info is-light is-medium">{{username}}</span>
+      <h4 class="is-size-4 mb-2">Room {{room}}:</h4>
+
+      <ul class="is-flex" style="gap: 10px">
+        {{#users}}
+        <li>
+          <span class="tag is-info is-light is-medium">{{username}}</span>
+        </li>
+        {{/users}}
+      </ul>
     </script>
 
     <script src="/socket.io/socket.io.js"></script>

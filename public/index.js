@@ -76,12 +76,11 @@ socket.on("location_message", ({ text, createdAt }) => {
 
 socket.on("room_update", ({ room, users }) => {
   chatRoomUsers.innerHTML = "";
-  users.forEach(({ username }) => {
-    const html = Mustache.render(roomUserTemplate, {
-      username,
-    });
-    chatRoomUsers.insertAdjacentHTML("beforeend", html);
+  const html = Mustache.render(roomUserTemplate, {
+    users,
+    room,
   });
+  chatRoomUsers.insertAdjacentHTML("beforeend", html);
 });
 
 socket.emit("join", { username, room }, (error) => {
