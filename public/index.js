@@ -9,9 +9,15 @@ const chatMessages = document.querySelector("#chat-messages");
 
 //templates
 const messageTemplate = document.querySelector("#message-template").innerHTML;
+const locationMessageTemplate = document.querySelector("#location-message-template").innerHTML;
 
 socket.on("message", (message) => {
   const html = Mustache.render(messageTemplate, {message});
+  chatMessages.insertAdjacentHTML("beforeend", html);
+});
+
+socket.on("location_message", (url) => {
+  const html = Mustache.render(locationMessageTemplate, {url});
   chatMessages.insertAdjacentHTML("beforeend", html);
 });
 

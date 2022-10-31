@@ -9,9 +9,7 @@
   <body>
     <div id="app">
       <div class="container">
-        <div id="chat-messages">
-
-        </div>
+        <div id="chat-messages"></div>
         <form id="chat-form">
           <input type="text" placeholder="message" name="message" />
           <button type="submit">submit</button>
@@ -21,6 +19,10 @@
     </div>
     <script id="message-template" type="text/html">
       <p>{{ message }}</p>
+    </script>
+
+    <script id="location-message-template" type="text/html">
+      <p><a target="new" href="{{ url }}">My location</a></p>
     </script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
