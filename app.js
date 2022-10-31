@@ -5,7 +5,7 @@ const http = require("http");
 const socketio = require("socket.io");
 const Filter = require("bad-words");
 const generateMessage = require("./utils/generateMessage");
-const { addUser, removeUser } = require("./utils/trackUsers");
+const { addUser, removeUser, getUser } = require("./utils/trackUsers");
 dotenv.config({ path: "./.env" });
 
 const app = express();
@@ -25,31 +25,33 @@ io.on("connection", (socket) => {
     }
     socket.join(user.room);
 
-    socket.emit("message", generateMessage("Welcome"));
+    socket.emit("message", generateMessage("Admin", "Welcome"));
     socket
       .to(user.room)
       .emit(
         "message",
-        generateMessage(`${user.username} has joined to ${user.room} room`)
+        generateMessage("Admin", `${user.username} has joined to ${user.room} room`)
       );
     callback();
   });
 
   socket.on("send_message", (message, callback) => {
+    const user = getUser(socket.id);
     const filter = new Filter();
 
     if (filter.isProfane(message)) {
       return callback("Profanity is not allowed");
     }
 
-    io.emit("message", generateMessage(message));
+    io.to(user.room).emit("message", generateMessage(user.username, message));
     callback();
   });
 
   socket.on("send_location", ({ longitude, latitude }, callback) => {
-    io.emit(
+    const user = getUser(socket.id);
+    io.to(user.room).emit(
       "location_message",
-      generateMessage(`http://google.com/maps/?q=${latitude},${longitude}`)
+      generateMessage(user.username, `http://google.com/maps/?q=${latitude},${longitude}`)
     );
     callback();
   });
@@ -60,7 +62,7 @@ io.on("connection", (socket) => {
     if (user) {
       io.to(user.room).emit(
         "message",
-        generateMessage(`${user.username} has disconnected`)
+        generateMessage("Admin", `${user.username} has disconnected`)
       );
     }
   });

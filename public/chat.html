@@ -46,7 +46,7 @@
     <script id="message-template" type="text/html">
       <div class="message">
         <div class="message-body">
-          <p class="has-text-weight-bold">Username</p>
+          <p class="has-text-weight-bold">{{username}}</p>
           <span class="tag is-info">{{createdAt}}</span>
           <p class="pt-4">{{message}}</p>
         </div>
@@ -56,7 +56,7 @@
     <script id="location-message-template" type="text/html">
       <div class="message is-info">
         <div class="message-body">
-          <p class="has-text-weight-bold">Username</p>
+          <p class="has-text-weight-bold">{{username}}</p>
           <span class="tag is-info">{{createdAt}}</span>
           <p class="pt-4"><a target="new" href="{{url}}">My location</a></p>
         </div>

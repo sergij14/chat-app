@@ -45,10 +45,11 @@ const { username, room } = Qs.parse(location.search, {
 
 /////////////////////////////////////////////////////////////////////
 
-socket.on("message", ({ text, createdAt }) => {
+socket.on("message", ({ text, createdAt, username }) => {
   const html = Mustache.render(messageTemplate, {
     message: text,
     createdAt: moment(createdAt).format(DATE_FORMAT),
+    username
   });
   chatMessages.insertAdjacentHTML("beforeend", html);
 });
