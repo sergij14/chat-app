@@ -24,21 +24,28 @@
           <div class="field">
             <label class="label">Message:</label>
             <div class="control">
-              <textarea
-                class="textarea"
+              <input
+                class="input"
+                id="chat-input"
                 placeholder="Message..."
                 name="message"
-              ></textarea>
+              />
             </div>
           </div>
           <div class="field is-grouped">
             <div class="control">
-              <button class="button is-link" type="submit">Submit</button>
+              <button
+                class="button is-link"
+                id="chat-submit-button"
+                type="submit"
+              >
+                Submit
+              </button>
             </div>
             <div class="control">
               <button
                 class="button is-link is-light"
-                id="send-location-btn"
+                id="chat-location-button"
                 type="submit"
               >
                 Send location
