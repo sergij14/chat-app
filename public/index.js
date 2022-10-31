@@ -75,6 +75,7 @@ socket.on("location_message", ({ text, createdAt }) => {
 });
 
 socket.on("room_update", ({ room, users }) => {
+  chatRoomUsers.innerHTML = "";
   users.forEach(({ username }) => {
     const html = Mustache.render(roomUserTemplate, {
       username,
