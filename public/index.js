@@ -36,6 +36,8 @@ sendLocationBtn.addEventListener("click", () => {
     socket.emit("send_location", {
       latitude,
       longitude,
+    }, () => {
+      console.log('location shared')
     });
   });
 });
