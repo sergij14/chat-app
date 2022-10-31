@@ -5,6 +5,15 @@ const chatForm = document.querySelector("#chat-form");
 const sendLocationBtn = document.querySelector("#send-location-btn");
 const chatFormBtn = document.querySelector("button");
 const chatFormMessage = chatForm.querySelector("input");
+const chatMessages = document.querySelector("#chat-messages");
+
+//templates
+const messageTemplate = document.querySelector("#message-template").innerHTML;
+
+socket.on("message", (message) => {
+  const html = Mustache.render(messageTemplate, {message});
+  chatMessages.insertAdjacentHTML("beforeend", html);
+});
 
 chatForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
@@ -21,10 +30,6 @@ chatForm.addEventListener("submit", (evt) => {
     chatFormMessage.focus();
     console.log("message delivered");
   });
-});
-
-socket.on("message", (data) => {
-  console.log(data);
 });
 
 sendLocationBtn.addEventListener("click", () => {
