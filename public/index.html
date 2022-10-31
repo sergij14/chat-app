@@ -14,7 +14,12 @@
     <div id="app">
       <div class="container is-fuild m-4">
         <div id="chat-messages"></div>
-        <form id="chat-form" autocomplete="off" style="max-width:600px">
+        <form
+          id="chat-form"
+          autocomplete="off"
+          class="mt-4"
+          style="max-width: 600px"
+        >
           <div class="field">
             <label class="label">Message:</label>
             <div class="control">
@@ -43,16 +48,22 @@
       </div>
     </div>
     <script id="message-template" type="text/html">
-      <div>
-        <span>{{createdAt}}</span>
-        <p>{{ message }}</p>
+      <div class="message" style="max-width: 600px">
+        <div class="message-body">
+          <p class="has-text-weight-bold">Username</p>
+          <span class="tag is-info">{{createdAt}}</span>
+          <p class="pt-4">{{ message }}</p>
+        </div>
       </div>
     </script>
 
     <script id="location-message-template" type="text/html">
-      <div>
-        <span>{{createdAt}}</span>
-        <p><a target="new" href="{{ url }}">My location</a></p>
+      <div class="message is-info" style="max-width: 600px">
+        <div class="message-body">
+          <p class="has-text-weight-bold">Username</p>
+          <span class="tag is-info">{{createdAt}}</span>
+          <p class="pt-4"><a target="new" href="{{ url }}">My location</a></p>
+        </div>
       </div>
     </script>
     <script src="/socket.io/socket.io.js"></script>

@@ -35,6 +35,9 @@ socket.on("location_message", ({ text, createdAt }) => {
 chatForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
   const message = evt.target.elements.message.value;
+  if (message === "") {
+    return alert("Message is empty");
+  }
   chatFormBtn.setAttribute("disabled", "disabled");
 
   socket.emit("send_message", message, (err) => {
