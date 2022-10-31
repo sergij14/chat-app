@@ -6,7 +6,8 @@ const sendLocationBtn = document.querySelector("#send-location-btn");
 const chatFormBtn = document.querySelector("button");
 const chatFormMessage = chatForm.querySelector("textarea");
 const chatMessages = document.querySelector("#chat-messages");
-const notifications = document.querySelector("#notifications");
+const chatNotifications = document.querySelector("#chat-notifications");
+const chatRoomUsers = document.querySelector("#chat-room-users");
 
 // consttants
 const DATE_FORMAT = "DD/MM/YYYY - hh:mm:ss";
@@ -18,6 +19,9 @@ const NOTIFICATION = {
 
 // templates
 const messageTemplate = document.querySelector("#message-template").innerHTML;
+const roomUserTemplate = document.querySelector(
+  "#room-user-template"
+).innerHTML;
 const locationMessageTemplate = document.querySelector(
   "#location-message-template"
 ).innerHTML;
@@ -31,11 +35,18 @@ const renderNotification = (message, type) => {
     message,
     type,
   });
-  notifications.innerHTML = "";
-  notifications.insertAdjacentHTML("beforeend", html);
+  chatNotifications.innerHTML = "";
+  chatNotifications.insertAdjacentHTML("beforeend", html);
   setTimeout(() => {
-    notifications.innerHTML = "";
+    chatNotifications.innerHTML = "";
   }, 2000);
+};
+
+const redirectToHome = () => {
+  chatForm.classList.add("is-hidden");
+  setTimeout(() => {
+    location.href = "/index.html";
+  }, 1000);
 };
 
 // query params
@@ -49,7 +60,7 @@ socket.on("message", ({ text, createdAt, username }) => {
   const html = Mustache.render(messageTemplate, {
     message: text,
     createdAt: moment(createdAt).format(DATE_FORMAT),
-    username
+    username,
   });
   chatMessages.insertAdjacentHTML("beforeend", html);
 });
@@ -58,17 +69,23 @@ socket.on("location_message", ({ text, createdAt }) => {
   const html = Mustache.render(locationMessageTemplate, {
     url: text,
     createdAt: moment(createdAt).format(DATE_FORMAT),
-    username
+    username,
   });
   chatMessages.insertAdjacentHTML("beforeend", html);
 });
 
+socket.on("room_update", ({ room, users }) => {
+  users.forEach(({ username }) => {
+    const html = Mustache.render(roomUserTemplate, {
+      username,
+    });
+    chatRoomUsers.insertAdjacentHTML("beforeend", html);
+  });
+});
+
 socket.emit("join", { username, room }, (error) => {
   if (error) {
-    chatForm.classList.add("is-hidden");
-    setTimeout(() => {
-      location.href = "/index.html";
-    }, 1000);
+    redirectToHome();
     return renderNotification(error, NOTIFICATION.DANGER);
   }
 });

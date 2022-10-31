@@ -5,7 +5,12 @@ const http = require("http");
 const socketio = require("socket.io");
 const Filter = require("bad-words");
 const generateMessage = require("./utils/generateMessage");
-const { addUser, removeUser, getUser } = require("./utils/trackUsers");
+const {
+  addUser,
+  removeUser,
+  getUser,
+  getRoomUsers,
+} = require("./utils/trackUsers");
 dotenv.config({ path: "./.env" });
 
 const app = express();
@@ -30,8 +35,17 @@ io.on("connection", (socket) => {
       .to(user.room)
       .emit(
         "message",
-        generateMessage("Admin", `${user.username} has joined to ${user.room} room`)
+        generateMessage(
+          "Admin",
+          `${user.username} has joined to ${user.room} room`
+        )
       );
+
+    io.to(user.room).emit("room_update", {
+      room: user.room,
+      users: getRoomUsers(user.room),
+    });
+
     callback();
   });
 
@@ -51,7 +65,10 @@ io.on("connection", (socket) => {
     const user = getUser(socket.id);
     io.to(user.room).emit(
       "location_message",
-      generateMessage(user.username, `http://google.com/maps/?q=${latitude},${longitude}`)
+      generateMessage(
+        user.username,
+        `http://google.com/maps/?q=${latitude},${longitude}`
+      )
     );
     callback();
   });
@@ -64,6 +81,10 @@ io.on("connection", (socket) => {
         "message",
         generateMessage("Admin", `${user.username} has disconnected`)
       );
+      io.to(user.room).emit("room_update", {
+        room: user.room,
+        users: getRoomUsers(user.room),
+      });
     }
   });
 });
