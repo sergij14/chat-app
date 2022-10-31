@@ -13,13 +13,13 @@ const port = process.env.PORT || 3000;
 
 app.use(express.static(path.join(__dirname, "public")));
 
-let count = 0;
-
 io.on("connection", (socket) => {
-  io.emit("count_update", count);
-  socket.on("increment", () => {
-    count++;
-    io.emit("count_update", count);
+  socket.emit("message", { data: "welcome" });
+
+  socket.on("send_message", (data) => {
+    console.log(data);
+
+    io.emit("message", { data });
   });
 });
 

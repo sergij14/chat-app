@@ -1,11 +1,18 @@
 const socket = io();
+const chatForm = document.querySelector("#chat-form");
 
-const btn = document.querySelector("#btn");
+chatForm.addEventListener("submit", (evt) => {
+  evt.preventDefault();
+  const formData = new FormData(chatForm);
+  const formDataObj = {};
 
-btn.addEventListener("click", () => {
-  socket.emit("increment");
+  for (const [key, value] of formData) {
+    formDataObj[key] = value;
+  }
+
+  socket.emit("send_message", formDataObj);
 });
 
-socket.on("count_update", (data) => {
-  console.log('count was updated to ', data);
+socket.on("message", (data) => {
+  console.log(data);
 });

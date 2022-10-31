@@ -7,8 +7,12 @@
     <title>Chat app</title>
   </head>
   <body>
-    <div id="app">app
-      <button id="btn">increment</button>
+    <div id="app">
+      <form id="chat-form">
+        <input type="text" name="name" placeholder="name" />
+        <textarea placeholder="message" name="message"></textarea>
+        <button type="submit">submit</button>
+      </form>
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/index.js"></script>
