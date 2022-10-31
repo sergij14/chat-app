@@ -30,23 +30,18 @@ const notificationTemplate = document.querySelector(
 ).innerHTML;
 
 // utils
-const renderNotification = (message, type) => {
+const renderNotification = (message, type, redirect = false) => {
   const html = Mustache.render(notificationTemplate, {
     message,
     type,
   });
   chatNotifications.innerHTML = "";
   chatNotifications.insertAdjacentHTML("beforeend", html);
+  if (redirect) chatForm.classList.add("is-hidden");
   setTimeout(() => {
+    if (redirect) location.href = "/index.html";
     chatNotifications.innerHTML = "";
   }, 2000);
-};
-
-const redirectToHome = () => {
-  chatForm.classList.add("is-hidden");
-  setTimeout(() => {
-    location.href = "/index.html";
-  }, 1000);
 };
 
 // query params
@@ -85,8 +80,7 @@ socket.on("room_update", ({ room, users }) => {
 
 socket.emit("join", { username, room }, (error) => {
   if (error) {
-    redirectToHome();
-    return renderNotification(error, NOTIFICATION.DANGER);
+    return renderNotification(error, NOTIFICATION.DANGER, true);
   }
 });
 
@@ -111,6 +105,10 @@ chatForm.addEventListener("submit", (evt) => {
   });
 });
 
+if (navigator.userAgentData.mobile) {
+  sendLocationBtn.classList.add("is-hidden");
+}
+
 sendLocationBtn.addEventListener("click", () => {
   if (!navigator.geolocation) {
     return renderNotification(
@@ -118,6 +116,7 @@ sendLocationBtn.addEventListener("click", () => {
       NOTIFICATION.DANGER
     );
   }
+
   sendLocationBtn.setAttribute("disabled", "disabled");
   navigator.geolocation.getCurrentPosition((position) => {
     const {
