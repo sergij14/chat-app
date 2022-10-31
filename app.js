@@ -14,12 +14,15 @@ const port = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, "public")));
 
 io.on("connection", (socket) => {
-  socket.emit("message", { data: "welcome" });
+  socket.emit("message", "welcome");
+  socket.broadcast.emit("message", "A new user has joined the chat");
 
   socket.on("send_message", (data) => {
-    console.log(data);
+    io.emit("message", data);
+  });
 
-    io.emit("message", { data });
+  socket.on("disconnect", () => {
+    io.emit("message", "A user has disconnected");
   });
 });
 
