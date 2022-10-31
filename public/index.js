@@ -16,6 +16,8 @@ const NOTIFICATION = {
   WARNING: "warning",
   DANGER: "danger",
 };
+const DEVICE_REGEX =
+  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
 
 // templates
 const messageTemplate = document.querySelector("#message-template").innerHTML;
@@ -105,10 +107,6 @@ $chatForm.addEventListener("submit", (evt) => {
   });
 });
 
-if (navigator.userAgentData.mobile) {
-  $ChatLocationButton.classList.add("is-hidden");
-}
-
 $ChatLocationButton.addEventListener("click", () => {
   if (!navigator.geolocation) {
     return renderNotification(
@@ -136,3 +134,7 @@ $ChatLocationButton.addEventListener("click", () => {
     );
   });
 });
+
+if (DEVICE_REGEX.test(navigator.userAgent)) {
+  $ChatLocationButton.classList.add("is-hidden");
+}
