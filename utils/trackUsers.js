@@ -1,11 +1,11 @@
-const users = [];
+let users = [];
 
 const addUser = ({ id, username, room }) => {
   username = username.trim().toLowerCase();
-  room = username.trim().toLowerCase();
+  room = room.trim().toLowerCase();
 
   if (!username || !room) {
-    return;
+    return { error: "Data was not provided" };
   }
 
   const existingUser = users.find((user) => {
@@ -13,7 +13,7 @@ const addUser = ({ id, username, room }) => {
   });
 
   if (existingUser) {
-    return;
+    return { error: "User exists" };
   }
 
   const user = { username, room, id };
@@ -22,7 +22,11 @@ const addUser = ({ id, username, room }) => {
   return { user };
 };
 
-const removeUser = (id) => users.filter((user) => user.id !== id);
+const removeUser = (id) => {
+  const user = users.find((user) => user.id === id);
+  users = users.filter((user) => user.id !== id);
+  return user;
+};
 
 const getUser = (id) => users.find((user) => user.id === id);
 

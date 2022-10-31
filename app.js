@@ -5,6 +5,7 @@ const http = require("http");
 const socketio = require("socket.io");
 const Filter = require("bad-words");
 const generateMessage = require("./utils/generateMessage");
+const { addUser, removeUser } = require("./utils/trackUsers");
 dotenv.config({ path: "./.env" });
 
 const app = express();
@@ -16,16 +17,22 @@ const port = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, "public")));
 
 io.on("connection", (socket) => {
-  socket.on("join", ({ room, username }) => {
-    socket.join(room);
+  socket.on("join", (options, callback) => {
+    const { user, error } = addUser({ id: socket.id, ...options });
+
+    if (error) {
+      return callback(error);
+    }
+    socket.join(user.room);
 
     socket.emit("message", generateMessage("Welcome"));
-    socket.broadcast
-      .to(room)
+    socket
+      .to(user.room)
       .emit(
         "message",
-        generateMessage(`${username} has joined to ${room} room`)
+        generateMessage(`${user.username} has joined to ${user.room} room`)
       );
+    callback();
   });
 
   socket.on("send_message", (message, callback) => {
@@ -48,7 +55,14 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    socket.emit("message", generateMessage("A user has disconnected"));
+    const user = removeUser(socket.id);
+
+    if (user) {
+      io.to(user.room).emit(
+        "message",
+        generateMessage(`${user.username} has disconnected`)
+      );
+    }
   });
 });
 

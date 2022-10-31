@@ -61,7 +61,15 @@ socket.on("location_message", ({ text, createdAt }) => {
   chatMessages.insertAdjacentHTML("beforeend", html);
 });
 
-socket.emit("join", { username, room });
+socket.emit("join", { username, room }, (error) => {
+  if (error) {
+    chatForm.classList.add("is-hidden");
+    setTimeout(() => {
+      location.href = "/index.html";
+    }, 1000);
+    return renderNotification(error, NOTIFICATION.DANGER);
+  }
+});
 
 chatForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
@@ -71,9 +79,10 @@ chatForm.addEventListener("submit", (evt) => {
   }
   chatFormBtn.setAttribute("disabled", "disabled");
 
-  socket.emit("send_message", message, (err) => {
-    if (err) {
-      return console.log(err);
+  socket.emit("send_message", message, (error) => {
+    if (error) {
+      chatFormBtn.removeAttribute("disabled");
+      return renderNotification(error, NOTIFICATION.DANGER);
     }
 
     chatFormBtn.removeAttribute("disabled");
