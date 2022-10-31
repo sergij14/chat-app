@@ -6,15 +6,39 @@ const sendLocationBtn = document.querySelector("#send-location-btn");
 const chatFormBtn = document.querySelector("button");
 const chatFormMessage = chatForm.querySelector("textarea");
 const chatMessages = document.querySelector("#chat-messages");
+const notifications = document.querySelector("#notifications");
 
-// const
+// consttants
 const DATE_FORMAT = "DD/MM/YYYY - hh:mm:ss";
+const NOTIFICATION = {
+  SUCCESS: "success",
+  WARNING: "warning",
+  DANGER: "danger",
+};
 
 //templates
 const messageTemplate = document.querySelector("#message-template").innerHTML;
 const locationMessageTemplate = document.querySelector(
   "#location-message-template"
 ).innerHTML;
+const notificationTemplate = document.querySelector(
+  "#notification-template"
+).innerHTML;
+
+//utils
+const renderNotification = (message, type) => {
+  const html = Mustache.render(notificationTemplate, {
+    message,
+    type,
+  });
+  notifications.innerHTML = "";
+  notifications.insertAdjacentHTML("beforeend", html);
+  setTimeout(() => {
+    notifications.innerHTML = "";
+  }, 2000);
+};
+
+/////////////////////////////////////////////////////////////////////
 
 socket.on("message", ({ text, createdAt }) => {
   const html = Mustache.render(messageTemplate, {
@@ -36,7 +60,7 @@ chatForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
   const message = evt.target.elements.message.value;
   if (message === "") {
-    return alert("Message is empty");
+    return renderNotification("Message is empty", NOTIFICATION.WARNING);
   }
   chatFormBtn.setAttribute("disabled", "disabled");
 
@@ -48,13 +72,16 @@ chatForm.addEventListener("submit", (evt) => {
     chatFormBtn.removeAttribute("disabled");
     chatFormMessage.value = "";
     chatFormMessage.focus();
-    console.log("message delivered");
+    renderNotification("Message delivered", NOTIFICATION.SUCCESS);
   });
 });
 
 sendLocationBtn.addEventListener("click", () => {
   if (!navigator.geolocation) {
-    return alert("Your browser does not support geolocation");
+    return renderNotification(
+      "Your browser does not support geolocation",
+      NOTIFICATION.DANGER
+    );
   }
   sendLocationBtn.setAttribute("disabled", "disabled");
   navigator.geolocation.getCurrentPosition((position) => {
@@ -69,7 +96,7 @@ sendLocationBtn.addEventListener("click", () => {
         longitude,
       },
       () => {
-        console.log("location shared");
+        renderNotification("Location shared", NOTIFICATION.SUCCESS);
         sendLocationBtn.removeAttribute("disabled");
       }
     );
