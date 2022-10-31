@@ -11,7 +11,13 @@ chatForm.addEventListener("submit", (evt) => {
     formDataObj[key] = value;
   }
 
-  socket.emit("send_message", formDataObj);
+  socket.emit("send_message", formDataObj, (err) => {
+    if (err) {
+      return console.log(err);
+    }
+
+    console.log("message delivered");
+  });
 });
 
 socket.on("message", (data) => {

@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const path = require("path");
 const http = require("http");
 const socketio = require("socket.io");
+const Filter = require("bad-words");
 dotenv.config({ path: "./.env" });
 
 const app = express();
@@ -17,8 +18,15 @@ io.on("connection", (socket) => {
   socket.emit("message", "welcome");
   socket.broadcast.emit("message", "A new user has joined the chat");
 
-  socket.on("send_message", (data) => {
+  socket.on("send_message", (data, callback) => {
+    const filter = new Filter();
+
+    if (filter.isProfane(data.message)) {
+      return callback("Profanity is not allowed");
+    }
+
     io.emit("message", data);
+    callback();
   });
 
   socket.on("send_location", ({ longitude, latitude }) => {
