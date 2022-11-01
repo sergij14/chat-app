@@ -7,7 +7,7 @@ const getActiveRooms = (io) => {
     if (sidsObj[room]) {
       return;
     }
-    result.push(room);
+    result.push({room});
   });
 
   return result;

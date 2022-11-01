@@ -29,7 +29,20 @@
           <div class="field">
             <label class="label">Room name:</label>
             <div class="control">
-              <input class="input" placeholder="Room" name="room" required />
+              <input
+                id="chat-room-input"
+                class="input"
+                placeholder="Room"
+                name="room"
+                required
+              />
+            </div>
+          </div>
+          <div class="field">
+            <div class="select">
+              <select id="chat-active-room-select">
+                <option value="" selected>Select active room</option>
+              </select>
             </div>
           </div>
           <div class="field is-grouped">
@@ -40,7 +53,14 @@
         </form>
       </div>
     </div>
+    <script id="active-room-template" type="text/html">
+      {{#rooms}}
+      <option value="{{room}}">{{room}}</option>
+      {{/rooms}}
+    </script>
+
     <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
     <script src="/index.js"></script>
   </body>
 </html>
