@@ -57,12 +57,21 @@ io.on("connection", (socket) => {
       return callback("Profanity is not allowed");
     }
 
+    if (!user) {
+      return callback("Please refresh the page");
+    }
+
     io.to(user.room).emit("message", generateMessage(user.username, message));
     callback();
   });
 
   socket.on("send_location", ({ longitude, latitude }, callback) => {
     const user = getUser(socket.id);
+
+    if (!user) {
+      return callback("Please refresh the page");
+    }
+
     io.to(user.room).emit(
       "location_message",
       generateMessage(

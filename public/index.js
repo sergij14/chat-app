@@ -35,13 +35,12 @@ const notificationTemplate = document.querySelector(
 // helpers
 
 const autoScroll = () => {
-  const $newMessage = $chatMessages.lastElementChild;
-  const newMessageHeight = $newMessage.offsetHeight;
-
   const contentVisibleHeight = $chatMessages.offsetHeight;
   const contentHeight = $chatMessages.scrollHeight;
 
-  console.log(newMessageHeight, contentHeight, contentVisibleHeight);
+  if (contentVisibleHeight < contentHeight) {
+    $chatMessages.scrollTop = contentHeight;
+  }
 };
 
 const renderNotification = (message, type, redirect = false) => {
