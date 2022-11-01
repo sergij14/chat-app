@@ -19,7 +19,7 @@
       >
         <div
           id="chat-notifications"
-          style="position: fixed; top: 1rem; right: 1rem"
+          style="position: absolute; z-index: 99; top: 1rem; right: 1rem"
         ></div>
         <div
           id="chat-room-users"
@@ -68,7 +68,12 @@
     </script>
 
     <script id="notification-template" type="text/html">
-      <div class="notification is-{{type}} is-light">{{message}}</div>
+      <div
+        style="box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 10%), 0 0 0 1px rgb(10 10 10 / 2%);"
+        class="notification is-{{type}} is-light"
+      >
+        {{message}}
+      </div>
     </script>
 
     <script id="room-user-template" type="text/html">
