@@ -1,6 +1,9 @@
 const socket = io({ query: { indexPage: true } });
 
 // elements
+const $chatActiveRoomSelectWrapper = document.querySelector(
+    "#chat-active-room-select-wrapper"
+  );
 const $chatActiveRoomSelect = document.querySelector(
   "#chat-active-room-select"
 );
@@ -29,11 +32,17 @@ $chatActiveRoomSelect.addEventListener("change", (evt) => {
 });
 
 socket.on("room_list", (rooms) => {
+  if (rooms.length) {
+    $chatActiveRoomSelectWrapper.classList.remove("is-hidden");
+  } else {
+    $chatActiveRoomSelectWrapper.classList.add("is-hidden");
+  }
+
   const html = Mustache.render(activeRoomTemplate, { rooms });
 
   Array.from($chatActiveRoomSelect.children).forEach((node) => {
     if (node.value) $chatActiveRoomSelect.removeChild(node);
   });
-  
+
   $chatActiveRoomSelect.insertAdjacentHTML("beforeend", html);
 });
