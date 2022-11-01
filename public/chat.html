@@ -44,25 +44,15 @@
               />
             </div>
           </div>
-          <div class="field is-grouped">
-            <div class="control">
-              <button
-                class="button is-link"
-                id="chat-submit-button"
-                type="submit"
-              >
-                Submit
-              </button>
-            </div>
-            <div class="control">
-              <button
-                class="button is-link is-light"
-                id="chat-location-button"
-                type="button"
-              >
-                Send location
-              </button>
-            </div>
+
+          <div class="control">
+            <button
+              class="button is-link"
+              id="chat-submit-button"
+              type="submit"
+            >
+              Submit
+            </button>
           </div>
         </form>
       </div>
@@ -73,16 +63,6 @@
           <p class="has-text-weight-bold">{{username}}</p>
           <span class="tag is-info">{{createdAt}}</span>
           <p class="pt-4">{{message}}</p>
-        </div>
-      </div>
-    </script>
-
-    <script id="location-message-template" type="text/html">
-      <div class="message is-info">
-        <div class="message-body">
-          <p class="has-text-weight-bold">{{username}}</p>
-          <span class="tag is-info">{{createdAt}}</span>
-          <p class="pt-4"><a target="new" href="{{url}}">My location</a></p>
         </div>
       </div>
     </script>

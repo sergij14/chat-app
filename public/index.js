@@ -3,7 +3,6 @@ const socket = io();
 // elements
 const $app = document.querySelector("#app");
 const $chatForm = document.querySelector("#chat-form");
-const $ChatLocationButton = document.querySelector("#chat-location-button");
 const $chatSubmitButton = document.querySelector("#chat-submit-button");
 const $chatInput = $chatForm.querySelector("#chat-input");
 const $chatMessages = document.querySelector("#chat-messages");
@@ -18,16 +17,11 @@ const NOTIFICATION = {
   WARNING: "warning",
   DANGER: "danger",
 };
-const DEVICE_REGEX =
-  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
 
 // templates
 const messageTemplate = document.querySelector("#message-template").innerHTML;
 const roomUserTemplate = document.querySelector(
   "#room-user-template"
-).innerHTML;
-const locationMessageTemplate = document.querySelector(
-  "#location-message-template"
 ).innerHTML;
 const notificationTemplate = document.querySelector(
   "#notification-template"
@@ -89,15 +83,6 @@ socket.on("message", ({ text, createdAt, username }) => {
   autoScroll();
 });
 
-socket.on("location_message", ({ text, createdAt, username }) => {
-  renederHtml($chatMessages, locationMessageTemplate, {
-    url: text,
-    createdAt: moment(createdAt).format(DATE_FORMAT),
-    username,
-  });
-  autoScroll();
-});
-
 socket.on("room_update", ({ room, users }) => {
   $chatRoomUsers.innerHTML = "";
   renederHtml($chatRoomUsers, roomUserTemplate, {
@@ -132,35 +117,3 @@ $chatForm.addEventListener("submit", (evt) => {
     renderNotification("Message delivered", NOTIFICATION.SUCCESS);
   });
 });
-
-$ChatLocationButton.addEventListener("click", () => {
-  if (!navigator.geolocation) {
-    return renderNotification(
-      "Your browser does not support geolocation",
-      NOTIFICATION.DANGER
-    );
-  }
-
-  $ChatLocationButton.setAttribute("disabled", "disabled");
-  navigator.geolocation.getCurrentPosition((position) => {
-    const {
-      coords: { latitude, longitude },
-    } = position;
-
-    socket.emit(
-      "send_location",
-      {
-        latitude,
-        longitude,
-      },
-      () => {
-        renderNotification("Location shared", NOTIFICATION.SUCCESS);
-        $ChatLocationButton.removeAttribute("disabled");
-      }
-    );
-  });
-});
-
-if (DEVICE_REGEX.test(navigator.userAgent)) {
-  $ChatLocationButton.classList.add("is-hidden");
-}

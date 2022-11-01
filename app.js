@@ -65,23 +65,6 @@ io.on("connection", (socket) => {
     callback();
   });
 
-  socket.on("send_location", ({ longitude, latitude }, callback) => {
-    const user = getUser(socket.id);
-
-    if (!user) {
-      return callback("Please refresh the page");
-    }
-
-    io.to(user.room).emit(
-      "location_message",
-      generateMessage(
-        user.username,
-        `http://google.com/maps/?q=${latitude},${longitude}`
-      )
-    );
-    callback();
-  });
-
   socket.on("disconnect", () => {
     const user = removeUser(socket.id);
 
