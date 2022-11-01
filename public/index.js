@@ -7,6 +7,7 @@ const $ChatLocationButton = document.querySelector("#chat-location-button");
 const $chatSubmitButton = document.querySelector("#chat-submit-button");
 const $chatInput = $chatForm.querySelector("#chat-input");
 const $chatMessages = document.querySelector("#chat-messages");
+const $chatMessagesWrapper = document.querySelector("#chat-messages-wrapper");
 const $chatNotifications = document.querySelector("#chat-notifications");
 const $chatRoomUsers = document.querySelector("#chat-room-users");
 
@@ -35,11 +36,12 @@ const notificationTemplate = document.querySelector(
 // helpers
 
 const autoScroll = () => {
-  const contentVisibleHeight = $chatMessages.offsetHeight;
-  const contentHeight = $chatMessages.scrollHeight;
+  const contentVisibleHeight = $chatMessagesWrapper.offsetHeight;
+  const contentHeight = $chatMessagesWrapper.scrollHeight;
 
   if (contentVisibleHeight < contentHeight) {
-    $chatMessages.scrollTop = contentHeight;
+    $chatMessagesWrapper.scrollTop = contentHeight;
+    $chatMessagesWrapper.style.paddingRight = "16px";
   }
 };
 
