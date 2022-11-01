@@ -12,14 +12,14 @@
   </head>
   <body>
     <div id="app">
-      <div class="container is-fuild m-4">
+      <div style="height: 100%" class="container is-fuild p-4">
         <div
           id="chat-room-users"
           class="pb-4"
           style="border-bottom: 1px dashed #c1c1c1"
         ></div>
         <div id="chat-notifications" class="my-4"></div>
-        <div id="chat-messages"></div>
+        <div id="chat-messages" style="max-height: 65%; overflow-y: auto"></div>
         <form id="chat-form" autocomplete="off" class="mt-4">
           <div class="field">
             <label class="label">Message:</label>

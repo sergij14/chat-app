@@ -1,6 +1,7 @@
 const socket = io();
 
 // elements
+const $app = document.querySelector("#app");
 const $chatForm = document.querySelector("#chat-form");
 const $ChatLocationButton = document.querySelector("#chat-location-button");
 const $chatSubmitButton = document.querySelector("#chat-submit-button");
@@ -32,6 +33,17 @@ const notificationTemplate = document.querySelector(
 ).innerHTML;
 
 // helpers
+
+const autoScroll = () => {
+  const $newMessage = $chatMessages.lastElementChild;
+  const newMessageHeight = $newMessage.offsetHeight;
+
+  const contentVisibleHeight = $chatMessages.offsetHeight;
+  const contentHeight = $chatMessages.scrollHeight;
+
+  console.log(newMessageHeight, contentHeight, contentVisibleHeight);
+};
+
 const renderNotification = (message, type, redirect = false) => {
   const html = Mustache.render(notificationTemplate, {
     message,
@@ -53,12 +65,16 @@ const renederMessage = (template, { text, createdAt, username }) => {
     username,
   });
   $chatMessages.insertAdjacentHTML("beforeend", html);
+  autoScroll();
 };
 
 // query params
 const { username, room } = Qs.parse(location.search, {
   ignoreQueryPrefix: true,
 });
+
+// setting app height
+$app.style.height = `${window.innerHeight}px`;
 
 /////////////////////////////////////////////////////////////////////
 
