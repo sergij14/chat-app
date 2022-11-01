@@ -56,11 +56,13 @@ const renderNotification = (message, type, redirect = false) => {
   $chatNotifications.innerHTML = "";
   renederHtml($chatNotifications, notificationTemplate, { message, type });
 
-  if (redirect) $chatForm.classList.add("is-hidden");
-  setTimeout(() => {
-    if (redirect) location.href = "/index.html";
-    $chatNotifications.innerHTML = "";
-  }, 2000);
+  if (redirect) {
+    $chatForm.classList.add("is-hidden");
+    $chatNotifications.style.position = 'initial'
+    setTimeout(() => {
+      location.href = "/index.html";
+    }, 2000);
+  }
 };
 
 // query params
