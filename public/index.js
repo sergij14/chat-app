@@ -79,6 +79,7 @@ socket.on("message", ({ text, createdAt, username }) => {
     createdAt: moment(createdAt).format(DATE_FORMAT),
     username,
   });
+  autoScroll();
 });
 
 socket.on("location_message", ({ text, createdAt, username }) => {
@@ -87,6 +88,7 @@ socket.on("location_message", ({ text, createdAt, username }) => {
     createdAt: moment(createdAt).format(DATE_FORMAT),
     username,
   });
+  autoScroll();
 });
 
 socket.on("room_update", ({ room, users }) => {
