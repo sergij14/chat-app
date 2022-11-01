@@ -31,7 +31,7 @@ const notificationTemplate = document.querySelector(
   "#notification-template"
 ).innerHTML;
 
-// utils
+// helpers
 const renderNotification = (message, type, redirect = false) => {
   const html = Mustache.render(notificationTemplate, {
     message,
@@ -46,6 +46,15 @@ const renderNotification = (message, type, redirect = false) => {
   }, 2000);
 };
 
+const renederMessage = (template, { text, createdAt, username }) => {
+  const html = Mustache.render(template, {
+    message: text,
+    createdAt: moment(createdAt).format(DATE_FORMAT),
+    username,
+  });
+  $chatMessages.insertAdjacentHTML("beforeend", html);
+};
+
 // query params
 const { username, room } = Qs.parse(location.search, {
   ignoreQueryPrefix: true,
@@ -53,22 +62,16 @@ const { username, room } = Qs.parse(location.search, {
 
 /////////////////////////////////////////////////////////////////////
 
-socket.on("message", ({ text, createdAt, username }) => {
-  const html = Mustache.render(messageTemplate, {
-    message: text,
-    createdAt: moment(createdAt).format(DATE_FORMAT),
-    username,
+socket.on("message", (data) => {
+  renederMessage(messageTemplate, {
+    ...data,
   });
-  $chatMessages.insertAdjacentHTML("beforeend", html);
 });
 
-socket.on("location_message", ({ text, createdAt }) => {
-  const html = Mustache.render(locationMessageTemplate, {
-    url: text,
-    createdAt: moment(createdAt).format(DATE_FORMAT),
-    username,
+socket.on("location_message", (data) => {
+  renederMessage(locationMessageTemplate, {
+    ...data,
   });
-  $chatMessages.insertAdjacentHTML("beforeend", html);
 });
 
 socket.on("room_update", ({ room, users }) => {
