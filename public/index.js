@@ -41,7 +41,7 @@ const autoScroll = () => {
 
   if (contentVisibleHeight < contentHeight) {
     $chatMessagesWrapper.scrollTop = contentHeight;
-    $chatMessagesWrapper.style.paddingRight = "16px";
+    $chatMessagesWrapper.style.paddingRight = "1rem";
   }
 };
 
@@ -58,11 +58,16 @@ const renderNotification = (message, type, redirect = false) => {
 
   if (redirect) {
     $chatForm.classList.add("is-hidden");
-    $chatNotifications.style.position = 'initial'
-    setTimeout(() => {
-      location.href = "/index.html";
-    }, 2000);
+    $chatNotifications.style.position = "initial";
   }
+
+  setTimeout(() => {
+    if (redirect) {
+      location.href = "/index.html";
+    }
+
+    $chatNotifications.innerHTML = "";
+  }, 2000);
 };
 
 // query params
