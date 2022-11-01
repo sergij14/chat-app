@@ -73,7 +73,9 @@ const { username, room } = Qs.parse(location.search, {
 $app.style.height = `${window.innerHeight}px`;
 
 /////////////////////////////////////////////////////////////////////
-
+socket.on("custom", (data) => {
+  console.log(data);
+});
 socket.on("message", ({ text, createdAt, username }) => {
   renederHtml($chatMessages, messageTemplate, {
     message: text,

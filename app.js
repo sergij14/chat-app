@@ -11,6 +11,7 @@ const {
   getUser,
   getRoomUsers,
 } = require("./utils/trackUsers");
+const getActiveRooms = require("./utils/getActiveRooms");
 dotenv.config({ path: "./.env" });
 
 const app = express();
@@ -29,6 +30,9 @@ io.on("connection", (socket) => {
       return callback(error);
     }
     socket.join(user.room);
+    
+    const activeRooms = getActiveRooms(io);
+    socket.emit("custom", activeRooms);
 
     socket.emit("message", generateMessage("Admin", "Welcome"));
     socket
