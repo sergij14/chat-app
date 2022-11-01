@@ -23,17 +23,19 @@ const port = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, "public")));
 
 io.on("connection", (socket) => {
+  if (socket.handshake.query.indexPage) {
+    socket.emit("room_list", getActiveRooms(io));
+  }
+
   socket.on("join", (options, callback) => {
     const { user, error } = addUser({ id: socket.id, ...options });
 
     if (error) {
       return callback(error);
     }
-    socket.join(user.room);
-    
-    const activeRooms = getActiveRooms(io);
-    socket.emit("custom", activeRooms);
 
+    socket.join(user.room);
+    io.emit("room_list", getActiveRooms(io));
     socket.emit("message", generateMessage("Admin", "Welcome"));
     socket
       .to(user.room)
@@ -81,6 +83,8 @@ io.on("connection", (socket) => {
         room: user.room,
         users: getRoomUsers(user.room),
       });
+
+      io.emit("room_list", getActiveRooms(io));
     }
   });
 });

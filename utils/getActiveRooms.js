@@ -1,13 +1,13 @@
 const getActiveRooms = (io) => {
-  const rooms = Array.from(io.sockets.adapter.rooms).map((el) => el[0]);
-  const sids = Array.from(io.sockets.adapter.sids).map((el) => el[0]);
+  const roomsObj = Object.fromEntries(io.sockets.adapter.rooms);
+  const sidsObj = Object.fromEntries(io.sockets.adapter.sids);
   const result = [];
 
-  rooms.forEach((room) => {
-    if (!sids.includes(room)) {
-      return result.push(room);
+  Object.keys(roomsObj).forEach((room) => {
+    if (sidsObj[room]) {
+      return;
     }
-    return [];
+    result.push(room);
   });
 
   return result;
