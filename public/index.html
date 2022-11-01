@@ -38,13 +38,7 @@
               />
             </div>
           </div>
-          <div class="field is-hidden" id="chat-active-room-select-wrapper">
-            <div class="select">
-              <select id="chat-active-room-select">
-                <option value="" selected>Select active room</option>
-              </select>
-            </div>
-          </div>
+          <div class="field" id="chat-active-room-select-wrapper"></div>
           <div class="field is-grouped">
             <div class="control">
               <button class="button is-link" type="submit">Submit</button>
@@ -54,9 +48,15 @@
       </div>
     </div>
     <script id="active-room-template" type="text/html">
-      {{#rooms}}
-      <option value="{{room}}">{{room}}</option>
-      {{/rooms}}
+      <label class="label">Active rooms: {{roomsCount}}</label>
+      <div class="select">
+        <select id="chat-active-room-select">
+          <option value="" selected>Select active room</option>
+          {{#rooms}}
+          <option value="{{room}}">{{room}}</option>
+          {{/rooms}}
+        </select>
+      </div>
     </script>
 
     <script src="/socket.io/socket.io.js"></script>
