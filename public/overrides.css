@@ -1,0 +1,23 @@
+.container {
+  position: relative !important;
+}
+
+.notification {
+  box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 10%),
+    0 0 0 1px rgb(10 10 10 / 2%) !important;
+}
+
+#chat-notifications {
+  position: absolute;
+  z-index: 99;
+  top: 1rem;
+  right: 1rem;
+}
+
+#chat-room-users {
+  border-bottom: 1px dashed #c1c1c1;
+}
+
+#chat-room-users ul {
+  gap: 1rem;
+}

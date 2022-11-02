@@ -68,9 +68,6 @@ const { username, room } = Qs.parse(location.search, {
   ignoreQueryPrefix: true,
 });
 
-// setting app height
-$app.style.height = `${window.innerHeight}px`;
-
 /////////////////////////////////////////////////////////////////////
 
 socket.on("message", ({ text, createdAt, username }) => {

@@ -8,28 +8,15 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
     />
+    <link rel="stylesheet" href="/overrides.css" />
     <title>Chat app</title>
   </head>
   <body>
     <div id="app">
-      <div
-        style="height: 100%"
-        class="container is-fuild p-4"
-        style="position: relative"
-      >
-        <div
-          id="chat-notifications"
-          style="position: absolute; z-index: 99; top: 1rem; right: 1rem"
-        ></div>
-        <div
-          id="chat-room-users"
-          class="pb-4 mb-4"
-          style="border-bottom: 1px dashed #c1c1c1"
-        ></div>
-        <div
-          id="chat-messages-wrapper"
-          style="max-height: 65%; overflow-y: auto"
-        >
+      <div class="container is-fuild p-4">
+        <div id="chat-notifications"></div>
+        <div id="chat-room-users" class="pb-4 mb-4"></div>
+        <div id="chat-messages-wrapper">
           <div id="chat-messages"></div>
         </div>
         <form id="chat-form" autocomplete="off" class="mt-4">
@@ -68,18 +55,13 @@
     </script>
 
     <script id="notification-template" type="text/html">
-      <div
-        style="box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 10%), 0 0 0 1px rgb(10 10 10 / 2%);"
-        class="notification is-{{type}} is-light"
-      >
-        {{message}}
-      </div>
+      <div class="notification is-{{type}} is-light">{{message}}</div>
     </script>
 
     <script id="room-user-template" type="text/html">
       <h4 class="is-size-4 mb-2">Room: {{room}}</h4>
 
-      <ul class="is-flex" style="gap: 1rem">
+      <ul class="is-flex">
         {{#users}}
         <li>
           <span class="tag is-info is-light is-medium">{{username}}</span>
