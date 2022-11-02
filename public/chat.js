@@ -91,6 +91,7 @@ socket.emit("join", { username, room }, (error) => {
   if (error) {
     return renderNotification(error, NOTIFICATION.DANGER, true);
   }
+  $chatInput.focus();
 });
 
 $chatForm.addEventListener("submit", (evt) => {
