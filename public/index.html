@@ -11,42 +11,41 @@
     <title>Chat app</title>
   </head>
   <body>
-    <div id="app">
-      <div class="container is-fuild p-4">
-        <form action="/chat.html">
-          <h2 class="is-size-2 mb-4">Join the chat</h2>
-          <div class="field">
-            <label class="label">Display name:</label>
-            <div class="control">
-              <input
-                class="input"
-                placeholder="Display name..."
-                name="username"
-                required
-              />
-            </div>
+    <div class="container is-fuild p-4">
+      <form action="/chat.html">
+        <h2 class="is-size-2 mb-4">Join the chat</h2>
+        <div class="field">
+          <label class="label">Display name:</label>
+          <div class="control">
+            <input
+              class="input"
+              placeholder="Display name..."
+              name="username"
+              required
+            />
           </div>
-          <div class="field">
-            <label class="label">Room name:</label>
-            <div class="control">
-              <input
-                id="chat-room-input"
-                class="input"
-                placeholder="Room"
-                name="room"
-                required
-              />
-            </div>
+        </div>
+        <div class="field">
+          <label class="label">Room name:</label>
+          <div class="control">
+            <input
+              id="chat-room-input"
+              class="input"
+              placeholder="Room"
+              name="room"
+              required
+            />
           </div>
-          <div class="field" id="chat-active-room-select-wrapper"></div>
-          <div class="field is-grouped">
-            <div class="control">
-              <button class="button is-link" type="submit">Submit</button>
-            </div>
+        </div>
+        <div class="field" id="chat-active-room-select-wrapper"></div>
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-link" type="submit">Submit</button>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
+
     <script id="active-room-template" type="text/html">
       <label class="label">Active rooms: {{roomsCount}}</label>
       <div class="select">

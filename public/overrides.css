@@ -1,5 +1,13 @@
+html,
+body,
+.full-height {
+  min-height: 100% !important;
+  height: 100%;
+}
+
 .container {
   position: relative !important;
+  flex: auto !important;
 }
 
 .notification {
@@ -20,4 +28,8 @@
 
 #chat-room-users ul {
   gap: 1rem;
+}
+
+#chat-messages-wrapper {
+  overflow: auto;
 }

@@ -12,38 +12,33 @@
     <title>Chat app</title>
   </head>
   <body>
-    <div id="app">
-      <div class="container is-fuild p-4">
-        <div id="chat-notifications"></div>
-        <div id="chat-room-users" class="pb-4 mb-4"></div>
-        <div id="chat-messages-wrapper">
-          <div id="chat-messages"></div>
-        </div>
-        <form id="chat-form" autocomplete="off" class="mt-4">
-          <div class="field">
-            <label class="label">Message:</label>
-            <div class="control">
-              <input
-                class="input"
-                id="chat-input"
-                placeholder="Message..."
-                name="message"
-              />
-            </div>
-          </div>
-
-          <div class="control">
-            <button
-              class="button is-link"
-              id="chat-submit-button"
-              type="submit"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
+    <div class="container is-flex is-flex-direction-column full-height is-fuild p-4">
+      <div id="chat-notifications"></div>
+      <div id="chat-room-users" class="pb-4 mb-4"></div>
+      <div id="chat-messages-wrapper">
+        <div id="chat-messages"></div>
       </div>
+      <form id="chat-form" autocomplete="off" class="mt-4">
+        <div class="field">
+          <label class="label">Message:</label>
+          <div class="control">
+            <input
+              class="input"
+              id="chat-input"
+              placeholder="Message..."
+              name="message"
+            />
+          </div>
+        </div>
+
+        <div class="control">
+          <button class="button is-link" id="chat-submit-button" type="submit">
+            Submit
+          </button>
+        </div>
+      </form>
     </div>
+
     <script id="message-template" type="text/html">
       <div class="message">
         <div class="message-body">
