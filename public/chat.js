@@ -1,7 +1,6 @@
 const socket = io();
 
 // elements
-const $app = document.querySelector("#app");
 const $chatForm = document.querySelector("#chat-form");
 const $chatSubmitButton = document.querySelector("#chat-submit-button");
 const $chatInput = $chatForm.querySelector("#chat-input");
